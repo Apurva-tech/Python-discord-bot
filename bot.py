@@ -1,5 +1,5 @@
 from discord.ext import commands
-from dotenv import load_dotenv
+import random
 
 TOKEN = "#"
 
@@ -9,6 +9,20 @@ bot = commands.Bot(command_prefix='!')
 async def faq(ctx, keyword):
     response = keyword
     await ctx.send(response)
+
+
+@bot.event
+async def on_message(message):
+  if message.author == bot.user:
+    return
+  
+  mssg = ['hi', 'hello', 'hey']
+
+  if message.content.lower().startswith(tuple(mssg)):
+    greetings = ['Hey! How are you?', 'Hello! Glad to see you.']
+    await message.channel.send(random.choice(greetings))
+
+bot.run(TOKEN)
 
 def get_qoute():
     response = requests.get("https://zenquotes.io/api/random")
@@ -27,3 +41,4 @@ async def on_message(message):
         await message.channel.send(response)
 
 bot.run(TOKEN)
+
